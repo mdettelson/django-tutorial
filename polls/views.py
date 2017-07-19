@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 #  from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render
 from django.template import loader
 from polls.models import Question
@@ -20,8 +20,12 @@ def index(request):
 
 
 def detail(request, question_id):
-    
-    return HttpResponse("You're looking at question {}.".format(question_id))
+    try:
+        question = Question.objects.get(pk=question_id)
+        context_dict = {'question': question}
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")
+    return render(request, 'polls/detail.html', context_dict)
 
 
 def results(request, question_id):
