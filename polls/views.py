@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 #  from django.shortcuts import render
-from django.http import HttpResponse, Http404
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
 from django.template import loader
 from polls.models import Question
 
@@ -20,11 +20,10 @@ def index(request):
 
 
 def detail(request, question_id):
-    try:
-        question = Question.objects.get(pk=question_id)
-        context_dict = {'question': question}
-    except Question.DoesNotExist:
-        raise Http404("Question does not exist")
+    question = get_object_or_404(Question, pk=question_id)
+    # the following code should only run when
+    # a question with the above id exists
+    context_dict = {'question': question}
     return render(request, 'polls/detail.html', context_dict)
 
 
