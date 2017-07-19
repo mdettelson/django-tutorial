@@ -5,6 +5,15 @@
     <title>Polls: Question "{{ question.question_text }}"</title>
 </head>
 <body>
-{{ question }}
+<h1>{{ question.question_text }}</h1>
+{% if question.choice_set.all %}
+<ul>
+    {% for choice in question.choice_set.all %}
+        <li>{{ choice.choice_text }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+    <p>There are currently no choices for this question.</p>
+{% endif %}
 </body>
 </html>
