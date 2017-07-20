@@ -13,6 +13,9 @@ from polls.models import Question, Choice
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
+    # If we did not change the name, the key
+    # for the context object would be
+    # question_list
     context_object_name = 'latest_question_list'
 
     def get_queryset(self):
